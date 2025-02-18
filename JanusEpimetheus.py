@@ -6,12 +6,10 @@ from modules.NbodySimulation import RK4
 
 # Constants
 M_Saturn = 5.6834e26 # kg
-# M_Janus = 1.894e18 # kg
-# M_Epimetheus = 5.256e17 # kg
-M_Janus = 2e18
-M_Epimetheus = 1e18
+M_Janus = 1.894e18 # kg
+M_Epimetheus = 5.256e17 # kg
 
-Delta_r = 150
+Delta_r = 50
 r_Janus = 151460 # km
 r_Epimetheus = r_Janus - Delta_r # km
 r0 = (M_Janus*r_Janus + M_Epimetheus*r_Epimetheus) / (M_Janus + M_Epimetheus)
