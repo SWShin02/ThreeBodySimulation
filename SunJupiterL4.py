@@ -52,4 +52,4 @@ for i in range(iterations):
     theta = (theta + w*dt) % (2*np.pi)
     data.loc[i] = np.array([r_vec[0, 0], r_vec[0, 1], r_vec[1, 0], r_vec[1, 1], r_vec[2, 0], r_vec[2, 1], theta])
 
-data.to_csv('./data/threebodyL4.csv', index=False)
+data.to_csv('./data/SunJupiterL4.csv', index=False)
