@@ -16,6 +16,7 @@ ax.set_xlim(-a, a); ax.set_ylim(-a, a)
 Sun = ax.scatter(data.loc[0, 'x1'], data.loc[0, 'y1'], label='Sun', c='r')
 Jupiter = ax.scatter(data.loc[0, 'x2'], data.loc[0, 'y2'], label='Jupiter', c='b')
 Particle = ax.scatter(data.loc[0, 'x3'], data.loc[0, 'y3'], label='particle', c='g')
+ax.plot(data['x3'], data['y3'], c='g', alpha=0.3)
 
 # 업데이트 함수 정의
 def update(frame:int):
@@ -29,4 +30,4 @@ def update(frame:int):
 ani = animation.FuncAnimation(fig, update, frames=500, blit=True)
 
 # GIF로 저장
-ani.save('animation.gif', writer='pillow')
+ani.save('./figures/SunJupiter.gif', writer='pillow')
