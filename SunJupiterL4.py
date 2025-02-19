@@ -31,7 +31,7 @@ for i in range(3):
 v_vec[2] = v_vec[2]*1.02
 
 # Simulation parameters
-dt = 2 # [day]
+dt = 1 # [day]
 iterations = 100000
 
 # Dataframe
