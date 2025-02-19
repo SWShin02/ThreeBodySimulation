@@ -8,7 +8,7 @@ filename = 'JanusEpimetheus-2.0'
 
 year = 60*24*365
 years = 6
-data = load_data(f'./data/{filename}.csv')[:years*year]
+data = load_data(filename)[:years*year]
 n_data = len(data)
 
 # Layout
