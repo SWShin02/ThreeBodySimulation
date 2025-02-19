@@ -1,11 +1,13 @@
 import pandas as pd
 import numpy as np
+from modules.CoordinateTransformation import load_data_3body_rot as load_data
 
 # Load data
-print('Loading data...')
-filename = 'JanusEpimetheus-2.0'
+info = '2.0-50'
 years = 6
-data = pd.read_csv(f'./data/{filename}_{years}year_rot.csv')
+filename = f'JanusEpimetheus-{info}_{years}year'
+print('Loading data...')
+data = load_data(filename, update=False)
 n_data = len(data)
 print('Finished')
 
