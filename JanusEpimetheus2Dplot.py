@@ -1,25 +1,15 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-from modules.CoordinateTransformation import rotate
+from modules.CoordinateTransformation import load_data_3body_rot as load_data
 
 # Load data
 filename = 'JanusEpimetheus-2.0'
 
 year = 60*24*365
 years = 6
-data = pd.read_csv(f'./data/{filename}.csv', header=0)[:years*year]
+data = load_data(f'./data/{filename}.csv')[:years*year]
 n_data = len(data)
-
-# Rotate
-print("Data loaded. Start rotating frame")
-for i in range(n_data):
-    data.loc[i, ['x1', 'y1']] = rotate(r=np.array([data.loc[i, ['x1', 'y1']]][0]), theta=-data.loc[i, 'theta'])
-    data.loc[i, ['x2', 'y2']] = rotate(r=np.array([data.loc[i, ['x2', 'y2']]][0]), theta=-data.loc[i, 'theta'])
-    data.loc[i, ['x3', 'y3']] = rotate(r=np.array([data.loc[i, ['x3', 'y3']]][0]), theta=-data.loc[i, 'theta'])
-
-data.to_csv(f'./data/{filename}_{years}year_rot.csv', index=False)
-print('Finished')
 
 # Layout
 fig = plt.figure(figsize=(10, 10))
