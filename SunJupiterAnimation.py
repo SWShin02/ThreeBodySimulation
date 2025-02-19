@@ -19,15 +19,17 @@ Particle = ax.scatter(data.loc[0, 'x3'], data.loc[0, 'y3'], label='particle', c=
 ax.plot(data['x3'], data['y3'], c='g', alpha=0.3)
 
 # 업데이트 함수 정의
+frames=500
+interval = len(data)//frames
 def update(frame:int):
-    data_idx = frame*100
+    data_idx = frame*interval
     Sun.set_offsets([[data.loc[data_idx, 'x1'], data.loc[data_idx, 'y1']]])
     Jupiter.set_offsets([[data.loc[data_idx, 'x2'], data.loc[data_idx, 'y2']]])
     Particle.set_offsets([[data.loc[data_idx, 'x3'], data.loc[data_idx, 'y3']]])
     return Sun, Jupiter, Particle
 
 # 애니메이션 생성
-ani = animation.FuncAnimation(fig, update, frames=500, blit=True)
+ani = animation.FuncAnimation(fig, update, frames=frames, blit=True)
 
 # GIF로 저장
 ani.save('./figures/SunJupiter.gif', writer='pillow')
