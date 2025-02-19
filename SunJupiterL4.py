@@ -14,7 +14,7 @@ M_Jupiter = 1.898e27/M_sun  # [M_sun]
 r_Jupiter = 5.2 # [AU]
 
 # Initial conditions
-m = np.array([1e-2, 1e-2, 1e-3])
+m = np.array([1, M_Jupiter, 0])
 
 r_vec = np.array([[0, 0], [r_Jupiter, 0], [0, 0]])
 r_vec[2] = rotate(np.pi/3, r_vec[1])
