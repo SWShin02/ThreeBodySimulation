@@ -2,10 +2,8 @@ import matplotlib.pyplot as plt
 from modules.CoordinateTransformation import load_data_3body_rot as load_data
 
 # Load data
-filename = 'threebodyL4'
-data = load_data(filename, update=True)
-# data = data.loc[:2000]
-
+filename = 'SunJupiterL4'
+data = load_data(filename)
 
 # Layout
 fig = plt.figure(figsize=(10, 10))
