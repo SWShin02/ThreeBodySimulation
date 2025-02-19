@@ -4,9 +4,10 @@ import numpy as np
 from modules.CoordinateTransformation import load_data_3body_rot as load_data
 
 # Load data
-filename = 'JanusEpimetheus-2.0'
+info = '2.0-50'
+filename = 'JanusEpimetheus-'+info
 
-year = 60*24*365
+year = 60*24*365 # [minutes]
 years = 6
 data = load_data(filename)[:years*year]
 n_data = len(data)
