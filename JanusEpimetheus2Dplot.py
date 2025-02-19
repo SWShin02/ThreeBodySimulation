@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-from modules.CoordinateTransformation import load_data_3body_rot as load_data
+from modules.CoordinateTransformation import innertial_to_rotating_frame_3body as rotate_df
 
 # Load data
 info = '2.0-50'
@@ -9,7 +9,9 @@ filename = 'JanusEpimetheus-'+info
 
 year = 60*24*365 # [minutes]
 years = 6
-data = load_data(filename)[:years*year]
+data = pd.read_csv(f'./data/{filename}.csv', header=0)[:years*year]
+data = rotate_df(data)
+data.to_csv(f'./data/{filename}_{years}year_rot.csv', index=False)
 n_data = len(data)
 
 # Layout
