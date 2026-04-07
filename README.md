@@ -13,7 +13,7 @@ This repository is built upon and inspired by the following academic works:
 
 ### Primary References
 
-1. **O'Neill, S., Hay, K., & deMattos, J. (2023).** *Theoretical and computational models for Saturn’s co-orbiting moons, Janus and Epimetheus.* arXiv preprint [arXiv:2308.06404](https://arxiv.org/abs/2308.06404).
+1. **O'Neill, S., Hay, K., & deMattos, J. (2023).** *Theoretical and computational models for Saturn’s co-orbiting moons, Janus and Epimetheus.* arXiv preprint [arXiv:2312.13442](https://arxiv.org/abs/2312.13442).
 
 ---
 
