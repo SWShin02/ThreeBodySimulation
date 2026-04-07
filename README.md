@@ -12,12 +12,10 @@ LibrationAmplitude.py & RadiusAmplitude.py literally compute the libration ampli
 This repository is built upon and inspired by the following academic works:
 
 ### Primary Publication
-* **O'Neill, S., Hay, K., & deMattos, J. (2024).** *Theoretical and computational models for Saturn’s co-orbiting moons, Janus and Epimetheus.* Celestial Mechanics and Dynamical Astronomy, 136(1).  
-  [DOI: 10.1007/s10569-023-10175-6](https://doi.org/10.1007/s10569-023-10175-6)
+* **O'Neill, S., Hay, K., & deMattos, J. (2024).** *Theoretical and computational models for Saturn’s co-orbiting moons, Janus and Epimetheus.* Celestial Mechanics and Dynamical Astronomy, 136(27).  
+  [DOI: 10.1007/s10569-024-10200-8](https://doi.org/10.1007/s10569-024-10200-8)
 
 ### BibTeX Citation
-If you use this work in an academic context, please cite the original paper as follows:
-
 ```bibtex
 @article{ONeill2024,
   author = {O'Neill, Sean and Hay, Katrina and deMattos, Justin},
@@ -25,10 +23,7 @@ If you use this work in an academic context, please cite the original paper as f
   journal = {Celestial Mechanics and Dynamical Astronomy},
   year = {2024},
   volume = {136},
-  number = {1},
-  pages = {5},
-  issn = {1572-9478},
-  doi = {10.1007/s10569-023-10175-6},
-  url = {[https://doi.org/10.1007/s10569-023-10175-6](https://doi.org/10.1007/s10569-023-10175-6)}
-}
+  number = {27},
+  doi = {10.1007/s10569-024-10200-8},
+  url = {[https://doi.org/10.1007/s10569-024-10200-8](https://doi.org/10.1007/s10569-024-10200-8)}
 }
