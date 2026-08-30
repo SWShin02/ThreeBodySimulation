@@ -1,6 +1,6 @@
 # Three body simulation
 
-JanusEpimetheus.py code is the simulation code. It makes an csv file consist of cartesian coordinates of Saturn, Janus, and Epimetheus in innertial frame. The csv file also contain an angle between innertial frame and rotating frame, which is rotating by mean angular velocity.
+JanusEpimetheus.py code is the simulation code. It writes an HDF5 file (`./data/JanusEpimetheus.h5`), one group per run named by the run's start time, containing the cartesian coordinates of Saturn, Janus, and Epimetheus in the innertial frame (`innertial`, shape `(t, 3, 2)`) and the angle between the innertial frame and the rotating frame, which rotates by mean angular velocity (`theta`, shape `(t,)`).
 
 JanusEpimetheus2Dplot.py visualize the orbit of Janus & Epimetheus in rotating frame.
 JanusEpimetheusRadiiPlot.py visualize the change of orbital radii. You can find that the period of orbit-exchange is dependent on orbital radius difference between Janus & Epimetheus.

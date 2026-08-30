@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from modules.CoordinateTransformation import load_data_3body_rot as load_data
+from modules.CoordinateTransformation import load_data_3body_rot
 
 # Load data
-filename = 'threebodyL4'
-data = load_data(filename, update=False)
+filepath = './data/SunJupiter.h5'
+group_name = None # None = latest run
+data, group_name = load_data_3body_rot(filepath, group_name)
 
 # Layout
 fig = plt.figure(figsize=(10, 10))
@@ -13,23 +14,23 @@ ax.axis('equal')
 
 a = 6
 ax.set_xlim(-a, a); ax.set_ylim(-a, a)
-Sun = ax.scatter(data.loc[0, 'x1'], data.loc[0, 'y1'], label='Sun', c='r')
-Jupiter = ax.scatter(data.loc[0, 'x2'], data.loc[0, 'y2'], label='Jupiter', c='b')
-Particle = ax.scatter(data.loc[0, 'x3'], data.loc[0, 'y3'], label='particle', c='g')
-ax.plot(data['x3'], data['y3'], c='g', alpha=0.3)
+Sun = ax.scatter(data[0, 0, 0], data[0, 0, 1], label='Sun', c='r')
+Jupiter = ax.scatter(data[0, 1, 0], data[0, 1, 1], label='Jupiter', c='b')
+Particle = ax.scatter(data[0, 2, 0], data[0, 2, 1], label='particle', c='g')
+ax.plot(data[:, 2, 0], data[:, 2, 1], c='g', alpha=0.3)
 
 # 업데이트 함수 정의
-frames=500
+frames = 500
 interval = len(data)//frames
 def update(frame:int):
     data_idx = frame*interval
-    Sun.set_offsets([[data.loc[data_idx, 'x1'], data.loc[data_idx, 'y1']]])
-    Jupiter.set_offsets([[data.loc[data_idx, 'x2'], data.loc[data_idx, 'y2']]])
-    Particle.set_offsets([[data.loc[data_idx, 'x3'], data.loc[data_idx, 'y3']]])
+    Sun.set_offsets([data[data_idx, 0]])
+    Jupiter.set_offsets([data[data_idx, 1]])
+    Particle.set_offsets([data[data_idx, 2]])
     return Sun, Jupiter, Particle
 
 # 애니메이션 생성
 ani = animation.FuncAnimation(fig, update, frames=frames, blit=True)
 
 # GIF로 저장
-ani.save('./figures/SunJupiter.gif', writer='pillow')
+ani.save(f'./figures/SunJupiter-{group_name}.gif', writer='pillow')

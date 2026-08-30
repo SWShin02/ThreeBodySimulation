@@ -1,8 +1,8 @@
 import numpy as np
-import pandas as pd
 import scipy.constants as const
 from modules.CoordinateTransformation import rotate, CM
 from modules.NbodySimulation import RK4
+from modules.DataIO import save_run
 
 # Constants
 M_sun = 1.989e30 # [kg]
@@ -34,22 +34,17 @@ v_vec[2] = v_vec[2]*1.02
 dt = 1 # [day]
 iterations = 100000
 
-# Dataframe
-data = pd.DataFrame({
-    'x1': np.zeros(iterations),
-    'y1': np.zeros(iterations),
-    'x2': np.zeros(iterations),
-    'y2': np.zeros(iterations),
-    'x3': np.zeros(iterations),
-    'y3': np.zeros(iterations),
-    'theta': np.zeros(iterations)
-})
+# History buffers
+innertial = np.zeros((iterations, 3, 2))
+theta_hist = np.zeros(iterations)
 
 # Simulation
 theta = 0
 for i in range(iterations):
     r_vec, v_vec = RK4(m, r_vec, v_vec, dt, Gravity_constant=G)
     theta = (theta + w*dt) % (2*np.pi)
-    data.loc[i] = np.array([r_vec[0, 0], r_vec[0, 1], r_vec[1, 0], r_vec[1, 1], r_vec[2, 0], r_vec[2, 1], theta])
+    innertial[i] = r_vec
+    theta_hist[i] = theta
 
-data.to_csv('./data/SunJupiterL4.csv', index=False)
+group_name = save_run('./data/SunJupiter.h5', innertial, theta_hist)
+print(f'Saved to ./data/SunJupiter.h5 [{group_name}]')

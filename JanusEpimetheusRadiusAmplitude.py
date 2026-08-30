@@ -1,16 +1,18 @@
-import pandas as pd
 import numpy as np
+from modules.DataIO import load_run
 
 # Load data
 print('Loading data...')
-filename = 'JanusEpimetheus-2.0'
-data = pd.read_csv(f'./data/{filename}.csv')
-n_data = len(data)
+filepath = './data/JanusEpimetheus.h5'
+group_name = None # None = latest run
+innertial, theta, group_name = load_run(filepath, group_name)
+n_data = len(innertial)
 print('Finished')
 
 # Compute Radius Amplitude
 year = 60*24*365 # [minutes]
-r_Janus, r_Epimetheus = data['r_Janus'], data['r_Epimetheus']
+r_Janus = np.linalg.norm(innertial[:, 1], axis=1)
+r_Epimetheus = np.linalg.norm(innertial[:, 2], axis=1)
 
 r_Janus_min = np.average(r_Janus[3*year:5*year])
 r_Janus_max = np.average(r_Janus[7*year:9*year])
