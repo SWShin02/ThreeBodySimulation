@@ -1,8 +1,8 @@
 import numpy as np
-import pandas as pd
 import scipy.constants as const
 from modules.CoordinateTransformation import CM
 from modules.NbodySimulation import RK4
+from modules.DataIO import save_run
 
 # Constants
 M_Saturn = 5.6834e26 # kg
@@ -36,21 +36,11 @@ w = np.sqrt(G*M_Saturn/r0**3)
 # Simulation parameters
 dt = 1 # second
 iterations = year*20 # 20 years
-n_data = iterations // 60 # every minutes
+n_data = -(-iterations // 60) # every minutes (ceiling, covers a non-multiple-of-60 iterations too)
 
-# Dataframe
-data = pd.DataFrame({
-    'x1': np.zeros(n_data),
-    'y1': np.zeros(n_data),
-    'x2': np.zeros(n_data),
-    'y2': np.zeros(n_data),
-    'x3': np.zeros(n_data),
-    'y3': np.zeros(n_data),
-    'theta': np.zeros(n_data),
-    'r_Janus': np.zeros(n_data),
-    'r_Epimetheus': np.zeros(n_data)
-})
-
+# History buffers
+innertial = np.zeros((n_data, 3, 2))
+theta_hist = np.zeros(n_data)
 
 # Simulation
 print('Simulation starts')
@@ -60,17 +50,13 @@ for i in range(iterations):
     r_vec, v_vec = RK4(m, r_vec, v_vec, dt, Gravity_constant=G)
     theta = (theta + w*dt) % (twopi)
     if i % 60 == 0: # every minutes
-        data.loc[i//60] = np.array([
-            r_vec[0, 0], r_vec[0, 1], 
-            r_vec[1, 0], r_vec[1, 1], 
-            r_vec[2, 0], r_vec[2, 1],
-            theta,
-            np.linalg.norm(r_vec[1]),
-            np.linalg.norm(r_vec[2])
-        ])
+        idx = i // 60
+        innertial[idx] = r_vec
+        theta_hist[idx] = theta
         if i % 2592000 == 0: # every month
             print(f'Progress: {i/iterations*100:.1f}%')
         if i % year == 0:
             print(f'{i//year} years')
 
-data.to_csv(f'./data/JanusEpimetheus-{M_Janus/M_Epimetheus:.1f}-{Delta_r}.csv', index=False)
+group_name = save_run('./data/JanusEpimetheus.h5', innertial, theta_hist)
+print(f'Saved to ./data/JanusEpimetheus.h5 [{group_name}]')

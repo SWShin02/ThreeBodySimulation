@@ -1,15 +1,16 @@
 import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
 import scipy.constants as const
+from modules.DataIO import load_run
 
 # Load data
-info = '2.0-100'
-filename = 'JanusEpimetheus-'+info
+filepath = './data/JanusEpimetheus.h5'
+group_name = None # None = latest run
 
-data = pd.read_csv(f'./data/{filename}.csv', header=0)
-r_Janus, r_Epimetheus = data['r_Janus'], data['r_Epimetheus']
-n_data = len(data)
+innertial, theta, group_name = load_run(filepath, group_name)
+r_Janus = np.linalg.norm(innertial[:, 1], axis=1)
+r_Epimetheus = np.linalg.norm(innertial[:, 2], axis=1)
+n_data = len(innertial)
 
 year = const.year/60
 time = np.linspace(0, n_data, n_data)/year
@@ -31,4 +32,4 @@ ax.set_xlim(0, 10)
 fig.tight_layout()
 
 # Output
-fig.savefig(f'JanusEpimetheusRadii-{info}.png')
+fig.savefig(f'./figures/JanusEpimetheusRadii-{group_name}.png')

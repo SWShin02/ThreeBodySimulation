@@ -1,26 +1,30 @@
-import pandas as pd
 import numpy as np
-from modules.CoordinateTransformation import load_data_3body_rot as load_data
+from modules.CoordinateTransformation import load_data_3body_rot
 
 # Load data
-info = '2.0-50'
+filepath = './data/JanusEpimetheus.h5'
+group_name = None # None = latest run
 years = 6
-filename = f'JanusEpimetheus-{info}_{years}year'
+minute = 60*24*365 # [minutes] per year, data recorded every minute
+
 print('Loading data...')
-data = load_data(filename, update=False)
+data, group_name = load_data_3body_rot(filepath, group_name)
+data = data[:years*minute]
 n_data = len(data)
 print('Finished')
 
 # Compute angular location in rotating frame
 # Janus
-theta_Janus = np.arctan2(data['y2'], data['x2'])
+x_Janus, y_Janus = data[:, 1, 0], data[:, 1, 1]
+theta_Janus = np.arctan2(y_Janus, x_Janus)
 amplitude_Janus = theta_Janus.max() - theta_Janus.min()
 amplitude_Janus = np.rad2deg(amplitude_Janus)
 
 # Epimetheus
-theta_Epimetheus = np.arctan2(data['y3'], data['x3'])
-UHP = data['y3'] >= 0
-LHP = data['y3'] < 0
+x_Epimetheus, y_Epimetheus = data[:, 2, 0], data[:, 2, 1]
+theta_Epimetheus = np.arctan2(y_Epimetheus, x_Epimetheus)
+UHP = y_Epimetheus >= 0
+LHP = y_Epimetheus < 0
 amplitude_Epimetheus = 2*np.pi - (theta_Epimetheus[UHP].min() - theta_Epimetheus[LHP].max())
 amplitude_Epimetheus = np.rad2deg(amplitude_Epimetheus)
 

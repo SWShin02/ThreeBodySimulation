@@ -1,27 +1,23 @@
 import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
-from modules.CoordinateTransformation import innertial_to_rotating_frame_3body as rotate_df
+from modules.CoordinateTransformation import load_data_3body_rot
 
 # Load data
-info = '2.0-50'
-filename = 'JanusEpimetheus-'+info
-
-year = 60*24*365 # [minutes]
+filepath = './data/JanusEpimetheus.h5'
+group_name = None # None = latest run
 years = 6
-data = pd.read_csv(f'./data/{filename}.csv', header=0)[:years*year]
-data = rotate_df(data)
-data.to_csv(f'./data/{filename}_{years}year_rot.csv', index=False)
-n_data = len(data)
+minute = 60*24*365 # [minutes] per year, data recorded every minute
+
+data, group_name = load_data_3body_rot(filepath, group_name)
+data = data[:years*minute]
 
 # Layout
 fig = plt.figure(figsize=(10, 10))
 ax = fig.add_subplot(111)
 
 # Plot
-ax.scatter(data['x1'], data['y1'], label='Saturn', c='r')
-ax.plot(data['x2'], data['y2'], label='Janus', c='b')
-ax.plot(data['x3'], data['y3'], label='Epimetheus', c='g')
+ax.scatter(data[:, 0, 0], data[:, 0, 1], label='Saturn', c='r')
+ax.plot(data[:, 1, 0], data[:, 1, 1], label='Janus', c='b')
+ax.plot(data[:, 2, 0], data[:, 2, 1], label='Epimetheus', c='g')
 
 # Details
 ax.axis('equal')
@@ -30,4 +26,4 @@ ax.set_ylabel('y')
 ax.legend()
 
 # Save
-fig.savefig(f'{filename}_{years}year.png')
+fig.savefig(f'./figures/JanusEpimetheus-{group_name}_{years}year.png')

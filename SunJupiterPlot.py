@@ -1,18 +1,19 @@
 import matplotlib.pyplot as plt
-from modules.CoordinateTransformation import load_data_3body_rot as load_data
+from modules.CoordinateTransformation import load_data_3body_rot
 
 # Load data
-filename = 'SunJupiterL4'
-data = load_data(filename)
+filepath = './data/SunJupiter.h5'
+group_name = None # None = latest run
+data, group_name = load_data_3body_rot(filepath, group_name)
 
 # Layout
 fig = plt.figure(figsize=(10, 10))
 ax = fig.add_subplot(111)
 
 # Plot
-ax.scatter(data['x1'], data['y1'], label='Sun', c='r')
-ax.scatter(data['x2'], data['y2'], label='Jupiter', c='b')
-ax.plot(data['x3'], data['y3'], label='particle', c='g')
+ax.scatter(data[:, 0, 0], data[:, 0, 1], label='Sun', c='r')
+ax.scatter(data[:, 1, 0], data[:, 1, 1], label='Jupiter', c='b')
+ax.plot(data[:, 2, 0], data[:, 2, 1], label='particle', c='g')
 
 # Details
 ax.axis('equal')
@@ -21,4 +22,4 @@ ax.set_ylabel('y')
 ax.legend()
 
 # Save
-fig.savefig(f'{filename}.png')
+fig.savefig(f'./figures/SunJupiter-{group_name}.png')
