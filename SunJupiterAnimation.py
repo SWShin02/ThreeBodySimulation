@@ -32,5 +32,5 @@ def update(frame:int):
 # 애니메이션 생성
 ani = animation.FuncAnimation(fig, update, frames=frames, blit=True)
 
-# GIF로 저장
-ani.save(f'./figures/SunJupiter-{group_name}.gif', writer='pillow')
+# MP4로 저장 (ffmpeg 필요)
+ani.save(f'./figures/SunJupiter-{group_name}.mp4', writer='ffmpeg', fps=30)

@@ -37,8 +37,10 @@ O'Neill, Hay, & deMattos (2024), *Celestial Mechanics and Dynamical Astronomy* 1
 
 이 스크립트들은 물리 계산을 하지 않는다. `modules/CoordinateTransformation.py`의
 `load_data_3body_rot`/`innertial_to_rotating_frame_3body`로 관성계→회전계 변환만 수행한
-뒤 matplotlib으로 정적 플롯(`figures/*.png`) 또는 GIF 애니메이션(`figures/*.gif`)을 만든다.
+뒤 matplotlib으로 정적 플롯(`figures/*.png`) 또는 MP4 애니메이션(`figures/*.mp4`)을 만든다.
 출력 파일명에는 어떤 run(group)에서 나온 그림인지 추적할 수 있도록 group 이름을 붙인다.
+애니메이션은 `animation.save(..., writer='ffmpeg', fps=30)`로 저장하므로 시스템에 `ffmpeg`
+실행 파일이 설치되어 있어야 한다 (pip 패키지가 아니라 `apt install ffmpeg` 등으로 설치).
 
 ### 3. 분석 코드 (h5 로드 → 수치만 계산·출력, 그림 없음)
 - `JanusEpimetheusLibrationAmplitude.py` — 회전계에서의 각진폭(libration amplitude) 계산.
@@ -65,8 +67,9 @@ python3 JanusEpimetheus.py          # 또는 SunJupiter.py — 시뮬레이션 �
 python3 JanusEpimetheusOrbitPlot.py # 시각화 — 기본적으로 h5 파일의 가장 최근 run을 읽음
 ```
 
-- 의존성: `numpy`, `scipy`, `matplotlib`, `h5py`, `numba` (pillow가 `animation.save(..., writer='pillow')`에
-  필요). 저장소에 `requirements.txt`가 없으므로 새로 추가할 경우 이 목록을 반영할 것.
+- 의존성: `numpy`, `scipy`, `matplotlib`, `h5py`, `numba` (pip 패키지). 애니메이션 스크립트는
+  `ffmpeg` 실행 파일이 시스템에 설치되어 있어야 한다 (matplotlib이 서브프로세스로 호출).
+  저장소에 `requirements.txt`가 없으므로 새로 추가할 경우 이 목록을 반영할 것.
 - `modules/NbodySimulation.py`의 `compute_gravitational_field`/`RK4`, `modules/CoordinateTransformation.py`의
   `innertial_to_rotating_frame_3body`는 반복 횟수가 많아(최대 수천만 스텝) `@njit(cache=True)`로
   컴파일된다. 최초 호출 시 컴파일 오버헤드가 있지만 이후 호출은 캐싱된다(`cache=True`). njit 함수
