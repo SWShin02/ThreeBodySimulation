@@ -65,8 +65,14 @@ python3 JanusEpimetheus.py          # 또는 SunJupiter.py — 시뮬레이션 �
 python3 JanusEpimetheusOrbitPlot.py # 시각화 — 기본적으로 h5 파일의 가장 최근 run을 읽음
 ```
 
-- 의존성: `numpy`, `scipy`, `matplotlib`, `h5py` (pillow가 `animation.save(..., writer='pillow')`에
+- 의존성: `numpy`, `scipy`, `matplotlib`, `h5py`, `numba` (pillow가 `animation.save(..., writer='pillow')`에
   필요). 저장소에 `requirements.txt`가 없으므로 새로 추가할 경우 이 목록을 반영할 것.
+- `modules/NbodySimulation.py`의 `compute_gravitational_field`/`RK4`, `modules/CoordinateTransformation.py`의
+  `innertial_to_rotating_frame_3body`는 반복 횟수가 많아(최대 수천만 스텝) `@njit(cache=True)`로
+  컴파일된다. 최초 호출 시 컴파일 오버헤드가 있지만 이후 호출은 캐싱된다(`cache=True`). njit 함수
+  안에서는 nopython 모드로 컴파일되므로 numpy의 일부 고급 인덱싱(예: `...`/ellipsis, `np.newaxis`
+  브로드캐스팅)을 피하고 명시적 인덱스 루프로 작성해야 한다. `rotate`/`CM`은 초기조건 설정 시
+  몇 번만 호출되는 가벼운 함수라 jit 대상에서 제외했다.
 - 시뮬레이션·시각화 스크립트 상단의 `group_name`/`years` 등 변수는 하드코딩되어 있다.
   `group_name = None`이면 h5 파일의 가장 최근 run을 자동으로 사용하고, 특정 과거 run을
   다시 보고 싶으면 `group_name`에 해당 `yyyymmddhhmm` 문자열을 직접 넣으면 된다.

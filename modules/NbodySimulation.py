@@ -1,6 +1,8 @@
 import numpy as np
 import scipy.constants as const
+from numba import njit
 
+@njit(cache=True)
 def compute_gravitational_field(m, r_vec, N_body:int, Gravity_constant:float=const.G):
     g = np.zeros((N_body, 2))
     for i in range(N_body):
@@ -8,9 +10,10 @@ def compute_gravitational_field(m, r_vec, N_body:int, Gravity_constant:float=con
             if i != j:
                 r = r_vec[j] - r_vec[i]
                 g[i] += Gravity_constant * m[j] * r / np.linalg.norm(r)**3
-    return g 
+    return g
 
-def RK4(m, r_vec:np.ndarray, v_vec:np.ndarray, dt:float, 
+@njit(cache=True)
+def RK4(m, r_vec:np.ndarray, v_vec:np.ndarray, dt:float,
         N_body:int=3, Gravity_constant:float=const.G)->np.ndarray:
     k1_v = compute_gravitational_field(m, r_vec, 
         N_body=N_body, Gravity_constant=Gravity_constant)*dt
