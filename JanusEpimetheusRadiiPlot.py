@@ -37,7 +37,7 @@ r_Janus_mean, r_Janus_std = bin_stats(r_Janus_masked)
 r_Epimetheus_mean, r_Epimetheus_std = bin_stats(r_Epimetheus_masked)
 
 # Layout
-fig = plt.figure()
+fig = plt.figure(figsize=(8,6))
 ax = fig.add_subplot()
 
 # Plot
@@ -52,7 +52,9 @@ ax.set_xlabel('time [years]')
 ax.set_ylabel('orbital radius [km]')
 ax.set_xlim(0, 10)
 
+ax.tick_params(axis='both', direction='in')
+
 fig.tight_layout()
 
 # Output
-fig.savefig(f'./figures/JanusEpimetheusRadii-{group_name}.png')
+fig.savefig(f'./figures/JanusEpimetheusRadii-{group_name}.png', dpi=300)
