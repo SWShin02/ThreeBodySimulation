@@ -28,11 +28,11 @@ angular_peturbation = 0
 for i in range(3):
     v_vec[i] = rotate(np.pi/2, r_vec[i]) * w
     v_vec[i] = rotate(angular_peturbation, v_vec[i])
-v_vec[2] = v_vec[2]*1.02
+v_vec[2] = v_vec[2]*1.025
 
 # Simulation parameters
 dt = 1 # [day]
-iterations = 100000
+iterations = 300000
 
 # History buffers
 innertial = np.zeros((iterations, 3, 2))
