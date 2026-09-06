@@ -15,7 +15,7 @@ def save_run(filepath:str, innertial:np.ndarray, theta:np.ndarray, group_name:st
         group_name = time.strftime('%Y%m%d%H%M')
     with h5py.File(filepath, 'a') as f:
         group = f.create_group(group_name)
-        group.create_dataset('innertial', data=innertial)
+        group.create_dataset('innertial', data=innertial, compression='gzip')
         group.create_dataset('theta', data=theta)
     return group_name
 

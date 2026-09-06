@@ -41,5 +41,5 @@ def load_data_3body_rot(filepath:str, group_name:str=None, update:bool=False):
         rotating = innertial_to_rotating_frame_3body(group['innertial'][:], group['theta'][:])
         if 'rotating' in group:
             del group['rotating']
-        group.create_dataset('rotating', data=rotating)
+        group.create_dataset('rotating', data=rotating, compression='gzip')
     return rotating, group_name
